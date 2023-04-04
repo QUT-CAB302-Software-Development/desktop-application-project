@@ -1,5 +1,6 @@
 package example.client;
 
+import example.data.InvalidUserException;
 import example.data.StaticUserDAO;
 import example.data.User;
 import javafx.event.ActionEvent;
@@ -106,7 +107,11 @@ public class LoginController {
             nameField.setVisible(true);
 
             // Add the user to the database - without a name.
-            userDAO.addUser(new User("", password, email));
+            try {
+                userDAO.addUser(new User("", password, email));
+            } catch (InvalidUserException e) {
+                throw new RuntimeException(e);
+            }
             welcomeField.setText("User created successfully! Please enter your full name and click Login.");
             isRegistering = true;
         }
