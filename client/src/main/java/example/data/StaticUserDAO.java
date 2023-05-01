@@ -31,10 +31,16 @@ public class StaticUserDAO implements UserDAO {
 
     @Override
     public User getUser(String email) {
-        return connection.getUsers().stream()
-                .filter(user -> user.getEmail().equals(email))
-                .findFirst()
-                .orElse(null);
+        for (User user : connection.getUsers()) {
+            if (user.getEmail().equals(email)) {
+                return user;
+            }
+        }
+        return null;
+//        return connection.getUsers().stream()
+//                .filter(user -> user.getEmail().equals(email))
+//                .findFirst()
+//                .orElse(null);
     }
 
     @Override
